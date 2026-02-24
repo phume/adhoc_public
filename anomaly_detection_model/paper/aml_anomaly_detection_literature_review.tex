@@ -168,16 +168,42 @@ Dual purpose: synthetic data generation and direct anomaly detection.
 
 \subsection{LLMs and Foundation Models}
 
-Newest frontier (2025--2026):
+LLMs are being applied to AML in three distinct modes: (1) as \textit{feature encoders} that generate embeddings for downstream classifiers, (2) as \textit{in-context learners} that perform few-shot detection via prompting, and (3) as \textit{investigation assistants} that automate analyst workflows. The field is moving fast but most results are on synthetic or small-scale data; production validation remains limited.
+
+\textbf{LLM-enhanced detection.}
+
+\begin{center}
+\small
+\begin{tabular}{p{2.8cm}lp{4.5cm}l}
+\toprule
+\textbf{Method} & \textbf{Year} & \textbf{Key Idea} & \textbf{Venue} \\
+\midrule
+FLAG & 2025 & LLM-generated semantic node features fused with GNN graph embeddings & KDD \\
+GuARD & 2025 & Joint encoding of free-text fields + graph topology & KDD \\
+DGP & 2026 & Dual-granularity prompting (transaction + subgraph level) with graph-enhanced LLMs & AAAI \\
+FinGPT & 2023 & Open-source financial LLM; fine-tunable for fraud/risk tasks & IJCAI \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{In-context learning and RAG for AML.}
 
 \begin{itemize}
-\item \textbf{FLAG} (KDD 2025): LLM-enhanced GNN for fraud detection. Uses large language models to generate semantic node features from raw transaction metadata, which are then fused with structural graph embeddings. Demonstrates that LLM-derived features can substitute for manual feature engineering in graph-based AML pipelines.
-\item \textbf{GuARD} (KDD 2025): Text-rich, graph-informed language model for anomaly detection. Jointly encodes unstructured text fields (e.g., transaction memos, KYC notes) and graph topology into a unified representation. Particularly relevant for AML settings where free-text fields carry signals that tabular features miss.
-\item \textbf{DGP} (AAAI 2026): Dual-granularity prompting with graph-enhanced LLMs. Introduces two levels of prompting---transaction-level and subgraph-level---to capture both local and structural anomaly signals. Achieves competitive performance with GNNs while offering natural-language explanations as a by-product.
-\item \textbf{AuditCopilot} (NeurIPS 2025 Workshop): LLMs for bookkeeping fraud. Applies instruction-tuned LLMs to detect anomalies in accounting records and journal entries. Highlights the potential for LLMs in adjacent financial crime domains beyond transaction monitoring.
-\item \textbf{Co-Investigator AI} (2025): Agentic framework for faster, more accurate SAR generation. Combines retrieval-augmented generation with structured case data to draft SAR narratives, reducing analyst writing time. Positions LLMs as analyst-assistance tools rather than standalone detectors.
-\item \textbf{FinGPT} (IJCAI 2023): Open-source financial LLM. Pre-trained on financial corpora and fine-tunable for downstream tasks including sentiment analysis, risk assessment, and fraud classification. Provides a foundation model baseline for financial NLP tasks, though AML-specific fine-tuning remains underexplored.
+\item \textbf{Pirmorad (2025, AI4FCF-ICDM, arXiv:2507.14785)}: ``Exploring the In-Context Learning Capabilities of LLMs for Money Laundering Detection in Financial Graphs.'' Retrieves $k$-hop neighborhoods from a financial knowledge graph, serializes them into structured text, and prompts an LLM via few-shot ICL to assess suspiciousness. First work to apply in-context learning to AML over financial graphs. Key advantage: produces analyst-style natural-language justifications, directly addressing the explainability gap that GNNs and tabular models cannot fill. Exploratory but establishes a baseline for hybrid graph+LLM approaches.
+\item \textbf{FinFRE-RAG} (Tan et al., 2025, arXiv:2512.13040): Two-stage approach combining importance-guided feature reduction with retrieval-augmented in-context learning over label-aware exemplars. Tested across four fraud datasets and three LLM families. Shows LLMs can approach specialized classifier accuracy while providing natural-language explanations.
+\item \textbf{Regulatory Graphs + GenAI} (Khanvilkar and Kommuru, 2025, arXiv:2506.01093): Combines dynamic transaction graph construction with GNN classification and a FAISS-based RAG pipeline. Flagged transactions are queried against indexed regulatory clauses; GPT-4 generates compliance explanations. Reports 98.2\% F1 on simulated data. Strong blueprint for systems needing both detection accuracy and audit-ready explanations.
 \end{itemize}
+
+\textbf{LLMs as investigation assistants.}
+
+\begin{itemize}
+\item \textbf{FAA Framework} (Shuster et al., 2025, arXiv:2506.11635): Multi-modal LLM-based Fraud Analyst Assistant that automates planning, evidence gathering, and analysis for credit card fraud investigations. Tested on 500 real fraud cases, averaging seven investigative steps per case. Template for AML investigation automation.
+\item \textbf{Co-Investigator AI} (2025, arXiv:2509.08380): Agentic SAR generation combining RAG with structured case data. Positions LLMs as analyst-assistance tools rather than standalone detectors.
+\item \textbf{AuditCopilot} (NeurIPS 2025 Workshop, arXiv:2512.02726): Benchmarks LLaMA, Gemma, Mistral on bookkeeping fraud. Mistral-8B achieves F1 0.94, outperforming rule-based and classical ML baselines.
+\item \textbf{LLM embeddings for non-semantic data} (Bakumenko et al., 2024, IEEE Access): Uses sentence-transformer models to encode non-semantic categorical financial data (account codes, cost centers) into embeddings for downstream classifiers. Demonstrates LLM encodings carry useful signal even for data without natural-language semantics.
+\end{itemize}
+
+\textbf{Limitations.} LLMs remain expensive at transaction-monitoring scale (millions of transactions/day), prone to hallucination on numerical reasoning, and lack the precision of specialized tabular models on structured data. Their strongest near-term role is in post-detection investigation and explanation, not primary detection.
 
 %==============================================================================
 \section{Traditional ML}
@@ -644,14 +670,23 @@ Regulatory non-negotiable (FinCEN, FCA, EBA, FATF):
 
 \subsection{Agentic AI}
 
-Most recent frontier (2025--2026):
+Agentic AI---autonomous systems that plan, execute, and adapt multi-step workflows---is the most recent frontier in AML (2025--2026). Unlike single-model inference, agentic systems orchestrate multiple specialized components (retrieval, reasoning, tool use) to handle complex compliance tasks end-to-end.
+
+\textbf{Industry deployments.}
 \begin{itemize}
 \item \textbf{Nasdaq Verafin}: Agentic AI Workforce automating low-value, high-volume compliance. Up to 50\% AML workload automation.
-\item \textbf{Co-Investigator AI} (2025): Agentic SAR generation---faster and more accurate.
-\item McKinsey (2025): Agentic AI automates EDD reviews (adverse media, historic activity, escalation).
-\item Agent-based KYC: onboarding from weeks $\to$ hours.
-\item Human-in-the-loop: AI handles lower-risk; humans retain high-level decisions.
+\item McKinsey (2025): Agentic AI automates EDD reviews (adverse media, historic activity, escalation). Agent-based KYC reduces onboarding from weeks to hours.
 \end{itemize}
+
+\textbf{Research architectures.}
+\begin{itemize}
+\item \textbf{Axelsen, Licht, and Damsgaard (2025, HICSS-59, arXiv:2509.13137)}: ``Agentic AI for Financial Crime Compliance.'' The most architecturally complete reference design for end-to-end agentic AML. Developed via action design research with a fintech firm and regulators. Uses artifact-centric modeling with clearly bounded agent roles across onboarding, monitoring, investigation, and reporting. Emphasizes compliance-by-design with task-specific model routing and audit logging. Directly implementable.
+\item \textbf{Okpala, Golgoon, and Kannan (2025, arXiv:2502.05439)}: ``Agentic AI Systems Applied to Tasks in Financial Services.'' Multi-agent ``crews'' with human-in-the-loop: a modeling crew (EDA, feature engineering, model selection, training, evaluation, documentation) and a model risk management crew (compliance verification, replication testing, outcome analysis). Includes a supervisory judge agent that oversees other agents. Tested on credit card fraud detection. The model risk management crew is directly relevant to AML model governance under OSFI E-23.
+\item \textbf{Kurshan, Balch, and Byrd (2025, arXiv:2512.11933)}: ``The Agentic Regulator.'' Proposes a four-layer governance architecture for agentic AI in finance: (1) self-regulation modules within models, (2) firm-level governance with telemetry and policy enforcement, (3) regulator-hosted agents for sector-wide monitoring, (4) independent audit blocks. Addresses the meta-question: how do you regulate agentic AI systems that are themselves doing AML?
+\item \textbf{Pandey (2025, IJSRA)}: ``Agentic AI with RAG for Automated Compliance Assistance.'' LangChain-based autonomous agent integrating RAG over FinCEN guidance, CFR provisions, and OFAC sanctions data. Proof-of-concept for a compliance assistant answering KYC/AML queries with source citation traceability. Addresses hallucination risks through retrieval grounding.
+\end{itemize}
+
+\textbf{Open challenges.} Agentic systems introduce new risks: compounding errors across multi-step chains, difficulty auditing autonomous decisions, and regulatory uncertainty about accountability when agents act independently. Human-in-the-loop oversight remains essential for high-stakes AML decisions.
 
 \subsection{Adversarial Robustness}
 
