@@ -11,13 +11,23 @@
 \begin{document}
 
 \noindent{\Large\bfseries Anomaly Detection for Anti-Money Laundering: Literature Review}\\[2pt]
-{\itshape Internal research note -- February 24, 2026 (v1)}
+{\itshape Internal research note -- January 2026 (v1)}
 
 \medskip
 
 \textbf{Scope.} Survey of ML/DL methods for AML anomaly detection, focusing on 2020--2026. Covers graph-based, deep learning, traditional ML, contextual/KYC, feature engineering, datasets, and emerging paradigms. Not a formal paper---a working reference for project planning.
 
 \textbf{Audience.} Data scientist with anomaly detection experience starting an AML project.
+
+\bigskip
+\noindent{\large\bfseries Table of Contents}
+\medskip
+\setcounter{tocdepth}{1}
+\makeatletter
+\@starttoc{toc}
+\makeatother
+
+\newpage
 
 %==============================================================================
 \section{Graph and Network-Based Approaches}
@@ -161,12 +171,12 @@ Dual purpose: synthetic data generation and direct anomaly detection.
 Newest frontier (2025--2026):
 
 \begin{itemize}
-\item \textbf{FLAG} (KDD 2025): LLM-enhanced GNN for fraud detection.
-\item \textbf{GuARD} (KDD 2025): Text-rich, graph-informed language model for anomaly detection.
-\item \textbf{DGP} (AAAI 2026): Dual-granularity prompting with graph-enhanced LLMs.
-\item \textbf{AuditCopilot} (NeurIPS 2025 Workshop): LLMs for bookkeeping fraud.
-\item \textbf{Co-Investigator AI} (2025): Agentic framework for faster, more accurate SAR generation.
-\item \textbf{FinGPT} (IJCAI 2023): Open-source financial LLM.
+\item \textbf{FLAG} (KDD 2025): LLM-enhanced GNN for fraud detection. Uses large language models to generate semantic node features from raw transaction metadata, which are then fused with structural graph embeddings. Demonstrates that LLM-derived features can substitute for manual feature engineering in graph-based AML pipelines.
+\item \textbf{GuARD} (KDD 2025): Text-rich, graph-informed language model for anomaly detection. Jointly encodes unstructured text fields (e.g., transaction memos, KYC notes) and graph topology into a unified representation. Particularly relevant for AML settings where free-text fields carry signals that tabular features miss.
+\item \textbf{DGP} (AAAI 2026): Dual-granularity prompting with graph-enhanced LLMs. Introduces two levels of prompting---transaction-level and subgraph-level---to capture both local and structural anomaly signals. Achieves competitive performance with GNNs while offering natural-language explanations as a by-product.
+\item \textbf{AuditCopilot} (NeurIPS 2025 Workshop): LLMs for bookkeeping fraud. Applies instruction-tuned LLMs to detect anomalies in accounting records and journal entries. Highlights the potential for LLMs in adjacent financial crime domains beyond transaction monitoring.
+\item \textbf{Co-Investigator AI} (2025): Agentic framework for faster, more accurate SAR generation. Combines retrieval-augmented generation with structured case data to draft SAR narratives, reducing analyst writing time. Positions LLMs as analyst-assistance tools rather than standalone detectors.
+\item \textbf{FinGPT} (IJCAI 2023): Open-source financial LLM. Pre-trained on financial corpora and fine-tunable for downstream tasks including sentiment analysis, risk assessment, and fraud classification. Provides a foundation model baseline for financial NLP tasks, though AML-specific fine-tuning remains underexplored.
 \end{itemize}
 
 %==============================================================================
@@ -183,22 +193,13 @@ Dominates tabular AML. Consistent with Grinsztajn et al.\ (2022, NeurIPS): tree-
 \toprule
 \textbf{Method} & \textbf{Typical AUC} & \textbf{Speed} & \textbf{Key Advantage} \\
 \midrule
-XGBoost & 0.95--0.99 & Medium & Best overall tabular; SHAP support \\
+XGBoost & 0.95--0.99 & Medium & Best overall tabular; built-in feature importance \\
 LightGBM & 0.95--0.98 & Fastest & 3--5$\times$ faster; high-cardinality cats \\
 CatBoost & 0.95--0.98 & Slow & Native categoricals; ordered boosting \\
 Stacking & 0.96--0.99 & Slowest & Best combined performance \\
 \bottomrule
 \end{tabular}
 \end{center}
-
-Key findings:
-\begin{itemize}
-\item IEEE-CIS Fraud Detection: all top-10 used XGBoost/LightGBM. Winning AUC $\sim$0.966.
-\item CatBoost advantage disappears with manual target encoding (Oliveira et al., 2021).
-\item LightGBM within 0.5\% AUC of XGBoost but 3--5$\times$ faster training---matters for production retraining.
-\item Lokanan et al.\ (2024, \textit{J.\ Financial Crime}): RF (AUC 0.94) and XGBoost (0.95) match or beat LSTM (0.93) on tabular AML data.
-\item Stacking (RF + XGBoost + LightGBM + LR meta-learner) improves AUC by 0.5--1.5\% over best single model.
-\end{itemize}
 
 \subsection{Unsupervised Methods}
 
@@ -218,10 +219,6 @@ PCA & 0.70--0.85 & Fast; interpretable & Misses nonlinear \\
 \end{tabular}
 \end{center}
 
-Comparative ranking (Hilal et al., 2022): IF $>$ Autoencoder $>$ LOF $>$ OCSVM $>$ DBSCAN.
-
-\textbf{Key insight.} Unsupervised methods are best as \textit{feature extractors}, not standalone detectors. Two-stage approach: IF anomaly scores as features for supervised model improves AUC by $\sim$3\% (Jullum et al., 2020). This ``anomaly score as feature'' paradigm is now standard.
-
 \subsection{Hybrid Rule + ML}
 
 Industry standard. Pure ML replacement of rules is rare due to regulatory requirements:
@@ -237,33 +234,40 @@ Industry standard. Pure ML replacement of rules is rare due to regulatory requir
 \section{Contextual Anomaly Detection}
 %==============================================================================
 
-\textbf{Core idea.} A \$50K wire is normal for a corporate treasury but anomalous for a student account. Contextual anomaly detection models $P(\mathbf{y}|\mathbf{c})$---the expected \textit{behavioral} features $\mathbf{y}$ given \textit{context} features $\mathbf{c}$---rather than a global joint distribution $P(\mathbf{x})$. An observation is contextually anomalous if its behavior deviates from what is expected \textit{given its context}, even if it appears normal globally.
+\textbf{Core idea.} Contextual anomaly detection models $P(\mathbf{y}|\mathbf{c})$---expected behavior $\mathbf{y}$ given context $\mathbf{c}$---rather than a global $P(\mathbf{x})$. A \$50K wire is normal for a corporate treasury but anomalous for a student account.
 
-This is a relatively thin literature compared to global anomaly detection, but it is the most operationally relevant framing for AML.
+Contextual methods can be broadly categorized by how they incorporate context:
+
+\begin{center}
+\small
+\begin{tabular}{p{3.2cm}p{4.5cm}p{4cm}}
+\toprule
+\textbf{Category} & \textbf{Approach} & \textbf{Examples} \\
+\midrule
+Peer-normalized & Normalize features by peer group statistics before applying a standard detector & Peer Z-score + IF, Bolton \& Hand (2001) \\
+Hard contextual & Partition data by discrete context (e.g., customer segment), fit separate models per group & Segment-level IF, per-group thresholds \\
+Soft contextual & Model $P(\mathbf{y}|\mathbf{c})$ directly with continuous context conditioning & CAD, ROCOD, QCAD, CWAE \\
+Learned contextual & Automatically discover which features are context vs.\ behavioral & ConQuest, CWAE bilevel optimization \\
+Uncertainty-aware & Provide calibrated confidence on anomaly scores given context density & GP-based contextual AD (2025) \\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \subsection{Foundational Methods}
 
 \begin{center}
 \small
-\begin{tabular}{p{2cm}lp{5cm}l}
+\begin{tabular}{p{2cm}lp{4cm}lc}
 \toprule
-\textbf{Method} & \textbf{Year} & \textbf{Key Idea} & \textbf{Venue} \\
+\textbf{Method} & \textbf{Year} & \textbf{Key Idea} & \textbf{Venue} & \textbf{Avg AUC} \\
 \midrule
-CAD & 2007 & Foundational: model $P(\mathbf{y}|\mathbf{c})$ via conditional Gaussian mixture; anomaly = low conditional likelihood & IEEE TKDE \\
-ROCOD & 2016 & Local (KNN-based) + global (regression) models with adaptive weighting by context density; 40$\times$ speedup & CIKM \\
-QCAD & 2023 & Quantile regression forests for conditional quantiles; explainable via quantile intervals & DAMI \\
-ConQuest & 2024 & Auto-discovers multiple useful contexts via genetic algorithm; MCAF multi-context scoring & IJDSA 2025 \\
+CAD & 2007 & Conditional Gaussian mixture; anomaly = low $P(\mathbf{y}|\mathbf{c})$ & IEEE TKDE & -- \\
+ROCOD & 2016 & Local + global models; adaptive weighting by context density & CIKM & 0.75--0.82 \\
+QCAD & 2023 & Quantile regression forests; explainable via quantile intervals & DAMI & 0.78--0.85 \\
+ConQuest & 2024 & Auto-discovers contexts via genetic algorithm; MCAF scoring & IJDSA 2025 & SOTA on 25 datasets \\
 \bottomrule
 \end{tabular}
 \end{center}
-
-\textbf{Song et al.\ (2007, IEEE TKDE).} The foundational ``conditional anomaly detection'' paper. Splits features into context $\mathbf{c}$ and behavioral $\mathbf{y}$, models $P(\mathbf{y}|\mathbf{c})$ with conditional Gaussian mixtures. Anomaly score = negative log conditional likelihood. Showed contextual detection finds anomalies invisible to global methods.
-
-\textbf{ROCOD} (Liang and Parthasarathy, 2016, CIKM). Addresses context sparsity: when few peers exist, the local model (KNN-based expected behavior) is unreliable. ROCOD blends a local peer model with a global regression model via adaptive weighting---local dominates in dense regions, global in sparse. 40$\times$ faster than prior contextual methods. The local model estimates expected behavior from contextual neighbors; the global model learns overall context$\to$behavior dependencies.
-
-\textbf{QCAD} (Li and van Leeuwen, 2023, \textit{Data Mining and Knowledge Discovery} 37(6):2517--2563). Key advancement over ROCOD: uses \textit{quantile regression forests} to model $P(\mathbf{y}|\mathbf{c})$ instead of the conditional mean. The quantile-based approach captures the full conditional distribution---wider quantile intervals indicate lower density and higher anomaly likelihood. Anomaly scores aggregated over behavioral features. Explainable: quantile intervals directly show why a point is anomalous (``value falls outside the 1st--99th percentile given this context''). Outperforms ROCOD on both accuracy and interpretability. Open-source: \texttt{github.com/ZhongLIFR/QCAD}.
-
-\textbf{ConQuest} (Calikus, Nowaczyk, and Dikmen, 2024, \textit{Int.\ J.\ Data Science and Analytics} 19:99--113). Solves the \textit{context discovery} problem: which features should be context vs.\ behavioral? Uses a multi-objective genetic algorithm with three objectives: (1) maximize dependency between context and behavior, (2) minimize contextual redundancy, (3) maximize anomaly discrimination. Produces multiple useful contexts, each scored via a novel Multi-Context Anomaly Factor (MCAF). Outperforms SOTA on 25 datasets. Directly interpretable: each context provides a different ``reason'' for anomalousness.
 
 \subsection{Deep Contextual Methods}
 
@@ -363,16 +367,6 @@ Key empirical finding: the magnitude of improvement from contextual methods depe
 \item \textbf{Customer 360 Profiles}: Dynamic integration of KYC data, transaction history, external datasets for trend/anomaly identification and peer group comparison.
 \item \textbf{HSBC Dynamic Risk Assessment}: ML models on transaction patterns + network behaviors + KYC data. Result: \textbf{60\% alert reduction, 2--4$\times$ true positive increase}.
 \item \textbf{AI risk rating}: Incorporating behavioral and transactional factors into dynamic customer risk scores, enabling peer group comparisons.
-\item Customer segmentation (k-means, DBSCAN) enables contextual thresholding: entities far from cluster centroid get heightened scrutiny.
-\end{itemize}
-
-\subsection{Entity Resolution}
-
-\begin{itemize}
-\item \textbf{Knowledge graphs}: Connect people, companies, accounts, transactions. Trace ownership chains across borders/shells. Link duplicate records.
-\item Data-driven name matching: 90\% more accurate than legacy fuzzy matching (handles transliterations, scripts, name variants).
-\item Graph-based entity resolution (Neo4j) for shared addresses, phones, IPs.
-\item Composite AI: entity resolution + graph analytics for proactive discovery.
 \end{itemize}
 
 \subsection{Landscape Assessment}
@@ -484,16 +478,6 @@ Neo4j & 100M+ & Graph database & Graph-based ER; ownership chains \\
 
 \textbf{Senzing} (commercial). In-memory, entity-centric ER engine. Processes billions of records in real-time. Used in financial crime, AML, and government applications. Key differentiator: maintains a live entity graph that updates incrementally as new records arrive---no batch reprocessing.
 
-\subsection{ER for AML: Specific Challenges}
-
-\begin{itemize}
-\item \textbf{Name matching across scripts/cultures}: Transliterations (Arabic $\leftrightarrow$ Latin), name ordering (family name first vs.\ last), aliases, nicknames. Data-driven name matching achieves 90\% more accuracy than legacy fuzzy matching.
-\item \textbf{Shell companies and beneficial ownership}: Resolving entities behind layers of shell companies across jurisdictions. Knowledge graphs trace ownership chains; graph-based ER links shared addresses, phones, directors.
-\item \textbf{Real-time vs.\ batch}: AML requires both---batch for initial deduplication/linking across 100M+ records; real-time for new customer onboarding and ongoing monitoring.
-\item \textbf{Privacy constraints}: Cross-institution ER without sharing PII. Privacy-preserving record linkage (PPRL) uses encrypted/hashed tokens for comparison.
-\item \textbf{Scale progression}: $<$1M records: DuckDB/Python. 1--100M: Splink/Zingg on Spark. 100M+: Senzing, custom distributed architectures, or graph databases (Neo4j).
-\end{itemize}
-
 \subsection{ER Performance Benchmarks}
 
 \textbf{Leipzig benchmark datasets} (Database Group Leipzig): Standard ER benchmarks with ground truth, including product, bibliographic, and geographic datasets at various scales.
@@ -546,13 +530,11 @@ Addresses label scarcity. Jullum et al.\ (2020): $\sim$3\% AUC improvement.
 
 \subsection{Handling Multicollinearity in Feature-Rich AML Pipelines}
 
-Feature engineering for AML produces dozens to hundreds of correlated features (e.g., txn count 24h $\leftrightarrow$ txn count 7d; amount mean $\leftrightarrow$ amount median). This multicollinearity does not degrade \emph{prediction} in tree-based models but causes three practical problems: (1) unstable/misleading feature importance, (2) inflated model complexity, and (3) SHAP attribution dilution across correlated features---undermining explainability.
-
 \textbf{Detection.}
 \begin{itemize}
-\item \textbf{Pearson / Spearman correlation matrix}: Drop one of any pair with $|r| > 0.90$--$0.95$. Simple, interpretable, but only captures pairwise linear relationships.
-\item \textbf{Variance Inflation Factor (VIF)}: Regresses each feature against all others. VIF $> 5$--$10$ indicates problematic collinearity. More comprehensive than pairwise correlation but expensive at high dimensionality ($O(p^2 n)$).
-\item \textbf{Eigenvalue analysis}: Small eigenvalues of the feature covariance matrix indicate near-linear dependencies. Condition number $> 30$ signals severe multicollinearity.
+\item \textbf{Pearson / Spearman correlation matrix}: Drop one of any pair with $|r| > 0.90$--$0.95$.
+\item \textbf{Variance Inflation Factor (VIF)}: VIF $> 5$--$10$ indicates problematic collinearity.
+\item \textbf{Eigenvalue analysis}: Condition number $> 30$ signals severe multicollinearity.
 \end{itemize}
 
 \textbf{Mitigation strategies.}
@@ -570,19 +552,10 @@ PCA / kernel PCA & Project onto orthogonal components & When interpretability of
 Mutual information (mRMR) & Select features maximizing relevance to target while minimizing redundancy among selected features & Supervised setting with labels; captures nonlinear dependencies \\
 LASSO / Elastic Net & $L_1$ penalty drives correlated feature coefficients to zero & Embedded selection; regularization path shows stability \\
 Recursive Feature Elimination (RFE) & Iteratively remove least-important features using model importance & Works with any model; computationally expensive \\
-SHAP-based selection & Cluster features by SHAP value correlation; keep representative of each cluster & Post-hoc; directly addresses SHAP dilution \\
+Attribution-based selection & Cluster features by explanation-value correlation; keep representative of each cluster & Post-hoc; directly addresses attribution dilution \\
 \bottomrule
 \end{tabular}
 \end{center}
-
-\textbf{Practical notes for AML feature engineering:}
-\begin{itemize}
-\item \textbf{Tree models (XGBoost/LightGBM) are robust to multicollinearity for prediction}---model accuracy is minimally affected. However, feature importance and SHAP values become unreliable when features are correlated (importance ``splits'' across redundant features). Since SHAP explainability is mandatory for FINTRAC, this must be addressed.
-\item \textbf{Recommended pipeline}: (1) Correlation filter ($|r|>0.9$) as first pass, (2) group remaining features by semantic category (velocity, behavioral, network, risk), (3) within each group, apply VIF or mRMR to select non-redundant representatives, (4) validate with SHAP clustering post-training.
-\item \textbf{Domain-informed grouping}: Rather than purely statistical removal, group by business meaning. E.g., keep \texttt{txn\_count\_24h} and \texttt{txn\_count\_30d} (different time horizons) but drop \texttt{txn\_count\_23h} (redundant with 24h). Domain knowledge prevents removing features that are statistically correlated but semantically distinct.
-\item \textbf{SHAP interaction values}: For pairs that survive filtering, SHAP interaction values ($\phi_{ij}$) reveal whether both features contribute \emph{independently} to predictions. If interaction is near-zero and main effects are similar, one can be dropped.
-\item \textbf{Stability selection} (Meinshausen \& B\"uhlmann, 2010): Run feature selection (LASSO, RFE) on random subsamples; keep features selected in $>60\%$ of runs. Robust to collinearity-induced instability.
-\end{itemize}
 
 %==============================================================================
 \section{Datasets and Evaluation}
@@ -661,8 +634,8 @@ Banks can't share data but laundering spans institutions:
 
 Regulatory non-negotiable (FinCEN, FCA, EBA, FATF):
 \begin{itemize}
-\item \textbf{SHAP/TreeSHAP}: De facto standard. Analysts 30\% faster with SHAP explanations (Jullum et al., 2020). ``Payment Format'' identified as most crucial feature in DNN-based AML (recall 0.94).
-\item \textbf{LIME}: Less stable than SHAP on correlated tabular features (common in AML).
+\item \textbf{SHAP/TreeSHAP}: Widely used. Jullum et al.\ (2020) reported analysts 30\% faster with SHAP explanations. However, SHAP values can be unstable with correlated features (common in AML), and computational cost grows with feature count. Should be used alongside---not as a replacement for---domain expertise.
+\item \textbf{LIME}: An alternative to SHAP for local explanations, though less stable on correlated tabular features. Useful for quick per-alert explanations but sensitive to perturbation strategy.
 \item \textbf{SEFraud} (KDD 2024): Self-explainable fraud via interpretative mask learning.
 \item Counterfactual explanations (``this alert would not have fired if...'') demanded by regulators.
 \item Global surrogates (decision trees/GAMs approximating black-box) for regulatory documentation.
@@ -699,13 +672,13 @@ Most recent frontier (2025--2026):
 \toprule
 \textbf{Scenario} & \textbf{Data} & \textbf{Labels} & \textbf{Recommended Approach} \\
 \midrule
-Tabular, labeled & Tabular & Yes & XGBoost/LightGBM + SHAP \\
+Tabular, labeled & Tabular & Yes & XGBoost/LightGBM + post-hoc explanations \\
 Tabular, no labels & Tabular & No & IF + two-stage \\
 Graph, labeled & Network & Yes & GraphSAGE/GAT + temporal \\
 Graph, no labels & Network & No & GAE or self-supervised GNN \\
 Multi-institution & Any & Mixed & Federated learning (FAML) \\
 Real-time & Stream & Any & TGN / streaming GNN \\
-Regulatory focus & Any & Any & Hybrid rule+ML + SHAP \\
+Regulatory focus & Any & Any & Hybrid rule+ML + explainability layer \\
 Few labels & Any & Few & Self-supervised + fine-tuning \\
 \bottomrule
 \end{tabular}
@@ -813,112 +786,23 @@ TBML & Price anomaly + cross-dataset & Trade price deviation models + customs da
 
 With STR labels, a single model can learn multiple typologies simultaneously:
 \begin{itemize}
-\item \textbf{Multi-label classification}: Each STR is tagged with typology code(s). Train XGBoost/LightGBM with multi-label targets. Enables typology-specific SHAP explanations.
+\item \textbf{Multi-label classification}: Each STR is tagged with typology code(s). Train XGBoost/LightGBM with multi-label targets. Enables typology-specific explanations.
 \item \textbf{Hybrid LSTM-GraphSAGE}: Captures both sequential transaction patterns (LSTM) and network structure (GraphSAGE). Reported \textbf{95.4\% accuracy} on simulated multi-typology data.
 \item \textbf{Hierarchical detection}: Level 1 = anomaly score (unsupervised), Level 2 = typology classifier (supervised), Level 3 = case-level aggregation. Each level adds specificity.
 \end{itemize}
 
 %==============================================================================
-\section{Recommended Architecture: Efficacy-Focused AML Detection}
+\section{FINTRAC Regulatory Alignment}
 %==============================================================================
 
-Given the requirements---FINTRAC efficacy focus, available STR labels, need to capture complex behavior---we recommend a \textbf{multi-stage hybrid architecture}. This design maximizes detection efficacy while maintaining explainability and regulatory defensibility.
-
-\subsection{Architecture Overview}
-
-\textbf{Stage 1: Feature Engineering Layer}
-\begin{itemize}
-\item Tabular features: velocity (count/amount per window), behavioral (deviation from peer/self baseline), temporal (time-of-day, day-of-week, recency), risk indicators (country risk, product risk, PEP/sanctions flags).
-\item Graph features: degree centrality, fan-in/fan-out ratio, PageRank, betweenness centrality, community membership. Even without GNNs, graph features improve F1 by $\sim$7\%.
-\item Contextual features: peer-group normalized residuals (cf.\ PNKIF), CWAE-style conditional expected behavior scores. These features encode ``anomalous given context'' rather than ``anomalous in absolute terms.''
-\item Entity resolution features: match confidence scores, entity cluster size, cross-product linkage indicators.
-\end{itemize}
-
-\textbf{Stage 2: Unsupervised Anomaly Scoring}
-\begin{itemize}
-\item Isolation Forest or Deep Isolation Forest on the full feature set $\to$ anomaly scores as additional features for Stage 3.
-\item Autoencoder reconstruction error on transaction embeddings $\to$ captures novel patterns not in STR history.
-\item Contextual anomaly scores (CWAE/PNKIF) $\to$ captures deviations from expected behavior given KYC context.
-\item Purpose: detect \emph{unknown unknowns}---laundering patterns not yet represented in historical STRs.
-\end{itemize}
-
-\textbf{Stage 3: Supervised Detection}
-\begin{itemize}
-\item \textbf{Primary model}: XGBoost or LightGBM on the combined feature set (raw features + Stage 2 anomaly scores). Expected AUROC: 0.95--0.97 based on literature.
-\item \textbf{Training data}: 6--24 months of dispositioned STR decisions. Cost-sensitive weighting to handle class imbalance.
-\item \textbf{Multi-label variant}: If STR typology codes are available, train with multi-label targets for typology-specific detection.
-\item \textbf{Calibration}: Platt scaling or isotonic regression to produce well-calibrated probabilities for risk-tiered alerting.
-\end{itemize}
-
-\textbf{Stage 4: Graph-Based Complex Behavior Detection}
-\begin{itemize}
-\item Subgraph mining for smurfing (GARG-AML) and layering (FlowScope) patterns.
-\item Optional GNN (GraphSAGE or GAT with temporal attention) if transaction graph is available. XGBoost + graph features achieves up to \textbf{8\% higher F1} than GNN-only on high-illicit datasets (GARG-AML, 2025).
-\item Community detection for mule network identification.
-\item Output: case-level scores aggregating entity, transaction, and network signals.
-\end{itemize}
-
-\textbf{Stage 5: Explainability and Case Presentation}
-\begin{itemize}
-\item SHAP values for every alert (mandatory for FINTRAC/OSFI).
-\item Typology-level explanations: ``This alert is driven by structuring-like patterns (SHAP: velocity features) combined with unusual counterparty network (SHAP: graph features).''
-\item Audit trail: full feature provenance, model version, decision path.
-\end{itemize}
-
-\subsection{Why This Architecture}
-
-\begin{center}
-\small
-\begin{tabular}{p{3.5cm}p{8cm}}
-\toprule
-\textbf{Design Choice} & \textbf{Rationale} \\
-\midrule
-Supervised core (Stage 3) & STR labels are available; supervised models dominate literature (AUROC 0.95+). Directly optimizes for the regulatory outcome (STR filing). \\
-Unsupervised augmentation (Stage 2) & Catches novel patterns absent from STR history. Addresses the ``unknown unknowns'' problem critical for efficacy. \\
-Contextual features & CWAE/PNKIF-style peer normalization separates ``unusual for this client type'' from ``unusual in absolute terms.'' Reduces FPs on legitimately high-volume clients. \\
-Graph layer (Stage 4) & Complex behaviors (layering, smurfing, mule networks) are inherently graph problems. Tabular models alone miss multi-hop patterns. \\
-SHAP explainability (Stage 5) & FINTRAC's new violation for programs not ``reasonably designed, risk-based and effective'' requires demonstrable model interpretability. OSFI E-23 (May 2027) will formalize model risk management requirements. \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\subsection{FINTRAC Regulatory Alignment}
-
-FINTRAC's evolving stance creates both opportunity and obligation:
+FINTRAC's evolving stance creates both opportunity and obligation for ML-based AML systems:
 \begin{itemize}
 \item \textbf{Efficacy mandate}: New violation for failure to ensure compliance programs are ``reasonably designed, risk-based and effective'' (2025). Shifts focus from checkbox compliance to demonstrable detection capability.
 \item \textbf{Enforcement escalation}: 20 AMPs in 2025 alone, exceeding \$200M total---the largest in FINTRAC history. Inadequate transaction monitoring is a primary target.
 \item \textbf{FinCEN endorsement of ML}: June 2024 proposed rule explicitly endorses AI/ML for ``greater precision in assessing customer risk'' and ``reducing false positives.'' Canadian regulators are expected to follow.
 \item \textbf{OSFI E-23 Model Risk Management} (effective May 2027): Will require model validation, ongoing monitoring, and documentation for all models used in risk management---including AML. Architecture must be designed with validation in mind from day one.
-\item \textbf{Explainability requirement}: Both FINTRAC and OSFI require that automated decisions be ``understandable.'' SHAP-based explanations satisfy this; black-box models (deep GNNs, LLMs) require additional justification.
+\item \textbf{Explainability requirement}: Both FINTRAC and OSFI require that automated decisions be ``understandable.'' Post-hoc explanation methods (e.g., SHAP, LIME, surrogate models) can help satisfy this, though no single method is universally sufficient. Black-box models (deep GNNs, LLMs) require additional justification.
 \end{itemize}
-
-\subsection{Implementation Roadmap}
-
-\begin{enumerate}
-\item \textbf{Phase 1 (Baseline)}: Feature engineering + XGBoost on STR labels. Establish AUROC/precision/recall baselines. Implement SHAP. \emph{Expected: AUROC $\sim$0.95, 60\%+ FP reduction over rules.}
-\item \textbf{Phase 2 (Contextual)}: Add contextual anomaly scores (CWAE/PNKIF) as features. Add unsupervised IF scores. \emph{Expected: additional 3--5\% FP reduction from contextual normalization.}
-\item \textbf{Phase 3 (Graph)}: Compute graph features (degree, fan-in/fan-out, PageRank). Add to XGBoost. Evaluate GNN if transaction network is available. \emph{Expected: F1 improvement $\sim$5--8\% on network-based typologies.}
-\item \textbf{Phase 4 (Complex behavior)}: Subgraph mining for smurfing/layering. Multi-label typology classification. Case-level aggregation. \emph{Expected: detection of multi-step patterns invisible to Stages 1--3.}
-\item \textbf{Phase 5 (Entity resolution)}: Integrate ER pipeline (Splink or equivalent) for 100M+ client base. Enrich features with resolved entity clusters. \emph{Expected: detection of shell/nested structure laundering.}
-\end{enumerate}
-
-%==============================================================================
-\section{Literature Takeaways}
-%==============================================================================
-
-\begin{enumerate}
-\item Feature engineering matters more than model choice on tabular data. Velocity + behavioral + contextual features are the highest-impact additions.
-\item XGBoost/LightGBM dominate tabular AML (AUC 0.95--0.99). With STR labels available, supervised learning should be the core.
-\item Graph features add value even without GNNs: simple degree, PageRank, fan-in/fan-out improve F1 by $\sim$7\%.
-\item Complex behaviors (layering, smurfing) require graph-level analysis---tabular models alone are insufficient for FINTRAC's efficacy standard.
-\item Contextual anomaly detection (CWAE, PNKIF, QCAD) is an underexplored but high-value direction that directly addresses the false positive problem.
-\item The two-stage unsupervised$\to$supervised pipeline is the most common production architecture and the safest starting point.
-\item SHAP explainability is mandatory---not optional---for Canadian regulatory deployment.
-\item Entity resolution at 100M+ scale is a prerequisite for detecting shell/nested laundering structures.
-\item Hybrid rule+ML is the industry standard; pure ML replacement of rules is rare due to regulatory constraints.
-\item Only 18\% of institutions have fully deployed AI/ML for AML---significant first-mover advantage available.
-\end{enumerate}
 
 \bigskip
 \noindent{\small\itshape Note: Some citation details (exact page/volume numbers) should be verified against original sources before formal publication. Performance metrics reflect literature-reported values under specific experimental configurations.}
