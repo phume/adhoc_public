@@ -3,7 +3,7 @@
 ## 2026-02-24 — STR Fermi Estimation
 
 - **Task:** Fermi estimation of illicit actors banking at Scotiabank DR
-- **Commit:** (pending)
+- **Commit:** a9c12a4
 - **Files created:**
   - `result_20260224_STR_Estimation.md` — main deliverable
   - `reference/AML_Performance_Benchmarks_Industry_Statistics.md` — AML benchmark research
