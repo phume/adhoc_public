@@ -303,7 +303,7 @@ The Dominican Republic presents a **high-risk AML environment** for retail banki
 | `layering_depth` | Max chain length from account |
 | `shell_company_score` | Shell entity likelihood composite |
 
-### 5.3 Geographic Features (12 features)
+### 5.3 Geographic Features (20 features)
 
 | Feature | Description |
 |---|---|
@@ -319,6 +319,14 @@ The Dominican Republic presents a **high-risk AML environment** for retail banki
 | `dr_us_corridor_volume` | DR-US corridor transaction volume |
 | `remittance_corridor_ratio` | Corridor txns / total |
 | `branch_location_anomaly` | Unusual branch for customer |
+| `nationality_txn_geography_mismatch` | % of transactions in countries other than residency or nationality |
+| `mexico_txn_ratio_30d` | Mexico POS/ATM transactions / total (Sinaloa nexus indicator) |
+| `us_northeast_remittance_ratio` | Remittances from NJ/NY/MA/CT / total incoming |
+| `nightclub_mcc_spend_ratio_30d` | MCC 5813 (bars), 7911 (entertainment), 5812 (restaurants) spend / total |
+| `late_night_txn_ratio` | Transactions 11PM–5AM / total (lifestyle indicator) |
+| `tourist_zone_txn_ratio` | Transactions in Punta Cana/Bávaro/Samaná/La Romana for non-tourism clients |
+| `transit_route_country_count_30d` | Distinct countries on known drug transit routes in 30 days |
+| `geo_lifestyle_inconsistency_score` | Composite: declared income vs. geo-spending pattern mismatch |
 
 ### 5.4 Account Features (17 features)
 
@@ -376,7 +384,7 @@ The Dominican Republic presents a **high-risk AML environment** for retail banki
 | `peer_dormancy_deviation` | Dormancy pattern vs peers |
 | `archetype_misalignment_score` | Behavioral archetype mismatch |
 
-**Total: 88 features across 6 categories**
+**Total: 96 features across 6 categories**
 
 ---
 
@@ -494,6 +502,16 @@ This table consolidates all identified red flags from all three reference docume
 | 58 | **Tourism Agency ML** | [INCSR](https://2009-2017.state.gov/j/inl/rls/nrcrpt/2016/vol2/253396.htm) | Tourism agencies identified as ML facilitators in DR | `def detect_tourism_agency_ml(txns, acct)` — Cash-heavy tourism entity with unusual wire patterns | `feat_tourism_agency_cash_ratio(txns)` |
 | 59 | **Car Dealership ML** | [INCSR](https://2009-2017.state.gov/j/inl/rls/nrcrpt/2016/vol2/253396.htm) | Car dealerships contributing to money laundering | `def detect_car_dealer_ml(txns, acct)` — High-value cash purchases without financing | `feat_car_dealer_cash_purchase_ratio(txns)` |
 | 60 | **Real Estate Tokenization Risk** | [El Inmobiliario](https://inmobiliario.do/en/real-estate-tokenization-in-the-dominican-republic-financial-innovation-or-risk-to-the-dominican-real-estate-registry-system-/) | Tokenized real estate obscuring beneficial ownership | `def detect_tokenized_re(txns)` — Flag txns to tokenization platforms + real estate | `feat_tokenized_asset_txn_count(txns)` — Count of tokenization-related txns |
+| 61 | **Foreign National with DR Account + Origin-Country Travel** | [INCSR](https://www.state.gov/2025-international-narcotics-control-strategy-report); [FATF MER 2018](https://www.fatf-gafi.org/en/publications/Mutualevaluations/Mer-dominican-republic-2018.html) | Mexican/Colombian/Venezuelan national holds DR account but shows frequent card usage in origin country or known transit hubs — suggests DR account used as layering vehicle rather than primary banking | `def detect_foreign_national_origin_travel(acct, txns, high_risk_nationalities=['MX','CO','VE'])` — Flag when nationality ∈ high-risk AND >30% of card txns geolocated to origin country | `feat_nationality_txn_geography_mismatch(acct, txns)` — % of txns in countries other than residency or nationality |
+| 62 | **DR Resident with Anomalous Mexico Travel** | [DEA 2024-2025 Press Releases](https://www.dea.gov/press-releases); [FinCEN Fentanyl FTA](https://www.fincen.gov/system/files/shared/FinCEN-FTA-Fentanyl.pdf) | DR citizen/resident with recurring POS/ATM usage in Mexico (especially Sinaloa, Jalisco, Guerrero) with no declared business reason — Sinaloa cartel nexus indicator | `def detect_dr_mexico_travel(acct, txns, mexico_states=['SIN','JAL','GRO'])` — Flag DR resident with >=3 Mexico txns in 90d and no declared MX business | `feat_mexico_txn_ratio_30d(txns)` — Mexico POS/ATM transactions / total |
+| 63 | **US–DR Corridor Mule Profile** | [FinCEN GTO](https://www.fincen.gov/news/news-releases/treasury-cracks-down-remittances-dominican-republic); [DEA Press Releases](https://www.dea.gov/press-releases) | DR account receiving frequent small remittances from US Northeast (NJ/NY/MA/CT) followed by rapid ATM cashout — consistent with drug proceeds repatriation via money mule network | `def detect_us_dr_mule(txns, acct, ne_states=['NJ','NY','MA','CT'], cashout_hours=48)` — Flag when >=5 remittances from NE states in 30d AND >80% withdrawn via ATM within 48h | `feat_us_northeast_remittance_ratio(txns)` — Remittances from NJ/NY/MA/CT / total incoming |
+| 64 | **Nightclub/Entertainment Lifestyle + Cash Pattern** | [Treasury Peralta DTO](https://home.treasury.gov/news/press-releases/sm755); [InSight Crime](https://insightcrime.org/news/brief/dominican-republic-massive-money-laundering/) | High nightclub/bar MCC spend, luxury goods purchases, late-night transaction concentration, followed by next-day cash deposits — lifestyle pattern associated with DTO operatives and front businesses | `def detect_nightlife_cash_pattern(txns, nightclub_mccs=[5813,7911,5812], luxury_mccs=[5944,5945])` — Flag when nightclub MCC >20% of spend AND late-night ratio >30% AND next-day cash deposits | `feat_nightclub_mcc_spend_ratio_30d(txns)` — MCC 5813/7911/5812 spend / total |
+| 65 | **Cross-Border ATM Corridor Pattern** | [FFIEC Appendix F](https://bsaaml.ffiec.gov/manual/Appendices/07); [Feedzai](https://www.feedzai.com/blog/what-is-aml-transaction-monitoring/) | ATM usage in both US and DR within short time windows (24-72h), suggesting physical courier travel carrying cash or cards — extends ATM-006 impossible travel to corridor-level pattern | `def detect_cross_border_atm_corridor(txns, countries=['US','DO'], window_hours=72)` — Flag when ATM txns in both US and DR within 72h window, recurring >=3 times in 90d | `feat_cross_border_atm_pair_count_90d(txns)` — Count of US-DR ATM usage pairs within 72h windows |
+| 66 | **Fentanyl Distribution Financial Profile** | [FinCEN Fentanyl FTA](https://www.fincen.gov/system/files/shared/FinCEN-FTA-Fentanyl.pdf); [DEA 2024-2025 Press Releases](https://www.dea.gov/press-releases) | Regular incoming transfers from US Northeast, small-to-mid wire/remittance amounts ($500-$5K), spending inconsistent with declared income — financial footprint matching prosecuted Dominican fentanyl distributors | `def detect_fentanyl_financial_profile(txns, acct, ne_states=['NJ','NY','MA','CT'])` — Flag when NE remittances >50% of income AND avg amount $500-$5K AND spending >2x declared income | `feat_us_northeast_remittance_ratio(txns)` + `feat_deposit_to_declared_income_ratio(txns, acct)` |
+| 67 | **PEP Lifestyle Inconsistency (Geo-Based)** | [Law 155-17](https://drlawyer.com/new-dominican-money-laundering-law-no-155-17/); [TI CPI DR](https://www.transparency.org/en/countries/dominican-republic) | Government official salary but luxury spending in tourist zones (Punta Cana, Casa de Campo, Cap Cana), high foreign travel frequency — geographic spending pattern inconsistent with declared PEP income | `def detect_pep_geo_inconsistency(acct, txns, tourist_zones=['PUNTA_CANA','CASA_CAMPO','CAP_CANA'])` — Flag PEP with tourist zone spend >20% of income OR foreign travel txns >10/quarter | `feat_geo_lifestyle_inconsistency_score(acct, txns)` — Composite: declared income vs. geo-spending pattern mismatch |
+| 68 | **Tourist Zone Transaction Anomaly** | [FATF MER 2018](https://www.fatf-gafi.org/en/publications/Mutualevaluations/Mer-dominican-republic-2018.html); [INCSR](https://www.state.gov/2025-international-narcotics-control-strategy-report) | Non-tourist-sector client with high transaction volumes in Punta Cana, Bávaro, Samaná, La Romana — suggests use of tourist zones for layering or cash placement through hospitality businesses | `def detect_tourist_zone_anomaly(acct, txns, zones=['PUNTA_CANA','BAVARO','SAMANA','LA_ROMANA'])` — Flag non-tourism client with >15% of txns in tourist zones | `feat_tourist_zone_txn_ratio(txns)` — Tourist zone txn count / total for non-tourism clients |
+| 69 | **Multi-Country Card Usage (Transit Profile)** | [DEA](https://www.dea.gov/press-releases); [INCSR](https://www.state.gov/2025-international-narcotics-control-strategy-report) | Card used in 3+ countries within 30 days matching known drug transit routes (DR→PR→US, DR→Haiti→Colombia, DR→Venezuela→Colombia) — physical movement along trafficking corridors | `def detect_transit_route_card(txns, transit_routes=[['DO','PR','US'],['DO','HT','CO'],['DO','VE','CO']])` — Flag when card used in >=3 countries in 30d AND route matches known transit corridor | `feat_transit_route_country_count_30d(txns)` — Distinct countries on known drug transit routes in 30 days |
+| 70 | **Nationality–Residency–Transaction Geography Mismatch** | [FATF R.10-12](https://www.fatf-gafi.org/en/topics/fatf-recommendations.html); [INCSR](https://www.state.gov/2025-international-narcotics-control-strategy-report) | Declared DR resident but 40%+ transactions in foreign country; or foreign national but no transactions in declared home country — mismatch between declared profile and actual transaction geography suggests account misuse | `def detect_residency_txn_mismatch(acct, txns, mismatch_threshold=0.4)` — Flag when foreign txn ratio >40% for residents OR home country txn ratio <5% for foreign nationals | `feat_nationality_txn_geography_mismatch(acct, txns)` — % of txns in countries other than residency or nationality |
 
 ---
 
@@ -526,10 +544,10 @@ All supporting research is stored in the `reference/` folder:
 | [reference/AML_Transaction_Monitoring_Research.md](reference/AML_Transaction_Monitoring_Research.md) | 71 rule-based monitoring rules by channel, 88 anomaly detection features, 25 small business rules, FATF/Wolfsberg standards, 40-row comprehensive table |
 
 ### Summary of Coverage
-- **60 red flags/typologies** in consolidated table (Section 8)
+- **70 red flags/typologies** in consolidated table (Section 8)
 - **71 rule-based monitoring rules** across 7 channels
 - **25 small business-specific rules**
-- **88 anomaly detection features** across 6 categories
+- **96 anomaly detection features** across 6 categories
 - **140+ source references** with URLs
 
 ---
