@@ -1,0 +1,9 @@
+❯ cd to aml_dominican_risk folder then do research on all and potential and emerging risk on AML risk relate to Domonican as a
+  country, as a jusridcition, as a citizen. Basically, we just acquired a retail banking in DOminican and we neeed to have a system
+  in place for AML. I also know there are some risk with fentanyl, human trfficking, faciliatrot transportation shipment from mexico
+  to US or NY. We are building both rule-based model coverage cash, abm, cheque, wire, P2P, etc.. we also have the anoamyl detection
+  model that we will ned a list of feature to be build. this is for both retail client and small business. DOn't worry about the
+  data, I will check wheter it's do able or not. I want you to store it in markdown. and all the document store in the /reference
+  folder. in the markdown please make sure to reference your finding so I have a backup. ALso, at the end create a large table with a
+   list of red flag and aml risk typology (first column) along with second column (ref resounce) and third (descrptio) and fourth (a
+  pontential for python function rule based) and fifth (a potentatin for python funciton feature for anomay detecrion)
