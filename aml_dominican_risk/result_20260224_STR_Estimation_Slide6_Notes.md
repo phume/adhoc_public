@@ -43,7 +43,7 @@ People involved in **international cocaine/heroin transit through DR** (not dome
 
 ### 1b. Mid-level transporters/operatives — 1,000 / 3,000 / 5,000
 
-**The volume anchor:** ~120 tons of cocaine transit Hispaniola annually (DNCD Vice Admiral Pimental estimate). 37.7 tons seized in 2024 (record) → ~25-31% interdiction rate → back-calculates to 120-150 tons total.
+**The volume anchor:** ~120 tons of cocaine transit Hispaniola annually. This is a **back-calculation**, not a directly published single statistic: DNCD seized a record 37.7 tons of cocaine in 2024 (up from ~18 tons in 2023; InSight Crime, Loop Caribbean Jan 2025). UNODC/USG estimates put Caribbean interdiction rates at ~20-30%. At 25-31% interdiction: 37.7 / 0.25 to 0.31 = **120-150 tons total**. Separately, USG estimates ~6-8% of total US-bound cocaine (~1,500 tons) transits Hispaniola → 90-120 tons. Both methods converge on ~120 tons.
 
 **Route decomposition (how 120 tons move):**
 
@@ -68,23 +68,23 @@ People involved in **international cocaine/heroin transit through DR** (not dome
 - Mid: 650 transport + 200 warehouse + 150 port + 100 comms + 400 logistics ≈ **~1,500** — but we also include ~1,500 people in overlapping support roles that rotate through the ecosystem = **3,000**
 - High: 970 transport + 300 warehouse + 200 port + 150 comms + 500 logistics ≈ **~2,120** + broader support network and occasional participants ≈ **5,000**
 
-**Cross-check:** DNCD made **~3,800 drug-related arrests in 2023** (INCSR). Not all are international traffickers (many are street-level), but this confirms thousands of people are active in the drug trade at any given time.
+**Cross-check:** DNCD made **~49,000 drug-related arrests in 2024** (DNCD annual report; N Digital Jan 2025). The vast majority are street-level, but this confirms tens of thousands of people are active in the drug trade at any given time. 2024 was also a record seizure year: 37.7 tons of cocaine (up from ~18 tons in 2023), driven partly by a single 9.8-ton seizure at Port of Caucedo in December 2024.
 
 ### 1c. Facilitators (corrupt officials, lawyers, brokers) — 500 / 1,500 / 3,000
 
 **The ratio approach:** For every trafficking operation, you need a support ecosystem of non-operational facilitators.
 
 **Who are they:**
-- Lawyers who create shell companies for DTOs: DR has ~25,000 registered lawyers (Colegio de Abogados). If 0.5-2% are knowingly facilitating DTOs → 125-500
-- Customs brokers who clear suspicious shipments: DR has ~800 licensed customs brokers (DGA). If 5-15% are complicit → 40-120
-- Real estate agents/notaries facilitating ML: DR has ~5,000 active RE agents. If 2-5% knowingly assist → 100-250
-- Cambio (exchange house) operators: ~2,000 cambios in DR (INCSR). If 5-10% of staff are complicit → 100-200
-- Accountants/financial advisors: ~10,000 registered. If 0.5-2% are complicit → 50-200
+- Lawyers who create shell companies for DTOs: DR has **~73,000 registered lawyers** (~47,500 active; CARD/El Nacional 2024). If 0.2-1% are knowingly facilitating DTOs → 95-475
+- Customs brokers who clear suspicious shipments: DR has **~687-986 licensed customs brokers** (DGA 2022-2024 licensing review). If 5-15% are complicit → 35-150
+- Real estate agents/notaries facilitating ML: No mandatory licensing exists in DR; rough estimate ~2,000-5,000 active agents. If 2-5% knowingly assist → 40-250
+- Cambio (exchange house) operators: **41 authorized entities** (Superintendencia de Bancos), but hundreds of informal/unlicensed operations exist. Complicit staff across formal + informal: ~50-200
+- Accountants/financial advisors: **5,358 registered** (ICPARD). If 0.5-2% are complicit → 27-107
 
 **Build-up:**
-- Low: 125 lawyers + 40 brokers + 100 RE + 100 cambio + 50 accountants = **~415, rounded to 500**
-- Mid: 300 lawyers + 80 brokers + 175 RE + 150 cambio + 125 accountants = **~830** — but also includes other categories (boat sellers, car dealers, informal brokers) ≈ **1,500**
-- High: 500 lawyers + 120 brokers + 250 RE + 200 cambio + 200 accountants + other = **~1,270 + ~1,730 broader** ≈ **3,000**
+- Low: 95 lawyers + 35 brokers + 40 RE + 50 cambio + 27 accountants = **~247** + miscellaneous (boat sellers, car dealers) ≈ **500**
+- Mid: 285 lawyers + 90 brokers + 145 RE + 125 cambio + 65 accountants = **~710** + broader informal facilitators ≈ **1,500**
+- High: 475 lawyers + 150 brokers + 250 RE + 200 cambio + 107 accountants = **~1,182** + broader network ≈ **3,000**
 
 **Note:** There is significant overlap between this sub-tier and the "ML Professionals" category (#6) and "Corrupt Officials" category (#7). This is one reason we apply the 30% dedup later.
 
@@ -239,9 +239,9 @@ People whose **primary role** is moving money through the banking system for cri
 | Mid | 12 | 3.5 | 10 | 12 × 3.5 × 10 = 420 organized + ~1,580 freelance/loosely affiliated ≈ **2,000** |
 | High | 15 | 5 | 15 | 15 × 5 × 15 = 1,125 organized + ~3,875 freelance ≈ **5,000** |
 
-**Why the "freelance" addition?** FinCEN's Geographic Targeting Orders on DR remittances revealed that structuring is **systemic**, not limited to organized cells. Many individuals do it as a paid service ($50-200 per transaction) without being part of a DTO. These are the "freelance mules."
+**Why the "freelance" addition?** The DR remittance corridor has a documented history of systemic structuring. In **1997**, FinCEN imposed a Geographic Targeting Order on DR remittances with a **$750 threshold** (vs. standard $3,000), targeting 15 remitters and ~3,400 agents in the NYC area alone. While that specific GTO has since expired (current DR corridor operates under standard BSA rules), the underlying pattern — many individuals structuring remittances as a paid service ($50-200 per transaction) — persists. These are the "freelance mules."
 
-**Cross-check:** FinCEN GTO threshold was set at **$750** for DR remittances (vs. standard $3,000 for other corridors). This extreme lowering implies FinCEN saw **high volume** of mule activity. If even 0.1-0.5% of the ~30M annual DR remittance transactions are mule-related, that's 30,000-150,000 suspicious transactions — pointing to thousands of individual mules.
+**Cross-check:** If even 0.1-0.5% of the ~30M annual DR remittance transactions (Inter-American Dialogue 2024) are mule-related, that's 30,000-150,000 suspicious transactions/year — pointing to thousands of individual mules. The Western Union $184M FinCEN penalty (2017) also cited DR corridor agents among the broader BSA violations.
 
 ### 4b. DR-side mules (receiving/distributing) — 300 / 1,000 / 3,000
 
@@ -249,7 +249,7 @@ People whose **primary role** is moving money through the banking system for cri
 
 | Function | Low | Mid | High | Reasoning |
 |----------|-----|-----|------|-----------|
-| Cambio-based distributors | 100 | 400 | 1,200 | ~2,000 cambios in DR (INCSR). If 5-10% have at least 1 complicit staff member doing cash distribution: 100-200 cambios × 1-6 people each |
+| Cambio-based distributors | 100 | 400 | 1,200 | DR has **41 authorized** cambio/remittance entities (Superintendencia de Bancos), but hundreds of informal/unlicensed exchange operations exist throughout the country (El Dinero describes them as "innumerable"). Complicit staff across formal + informal exchange points: 100-1,200 |
 | Real estate straw buyers | 50 | 200 | 600 | People who buy properties on behalf of DTO members. INCSR identifies real estate as #1 ML vehicle in DR. Each network needs 5-20 straw buyers to diversify ownership |
 | Cash couriers (domestic) | 100 | 300 | 800 | Move cash from cambios/ATMs to final recipients. Physical couriers needed because amounts are too large for single ATM withdrawal |
 | Account holders (lend their accounts) | 50 | 100 | 400 | People who allow criminal funds to transit through their personal accounts for a fee |
@@ -257,17 +257,17 @@ People whose **primary role** is moving money through the banking system for cri
 
 ### 4c. Complicit remittance/exchange staff — 100 / 300 / 600
 
-**The FinCEN GTO anchor:**
-- FinCEN imposed GTOs specifically on **12 remittance corridors** to DR from US cities (NYC, NJ, MA, FL)
-- ~30M remittance transactions/year to DR (Inter-American Dialogue)
-- An estimated ~2,500 remittance agent locations serve the DR corridor in the US (Western Union, Quisqueyana, Vimenca, etc.)
+**The remittance corridor anchor:**
+- ~30M remittance transactions/year to DR, totaling $10.76B in 2024 (BCRD; Dominican Today Jan 2025)
+- An estimated **3,000-5,000+ US-side remittance agent locations** serve the DR corridor (La Nacional alone has ~800 sending agents + 65 stores; plus Western Union, Ria, Caribe Express, etc.)
+- On the DR receiving side: Vimenca/WU has 300+ locations, Caribe Express has 170+ branches
 
 **What fraction of agents are complicit?**
-- Low: 4% of ~2,500 agent locations have at least 1 complicit employee = 100 individuals
-- Mid: 12% = 300 individuals
-- High: 24% = 600 individuals
+- Low: 3% of ~3,000 agent locations have at least 1 complicit employee ≈ 90 → **100 individuals**
+- Mid: 10% of ~3,000 ≈ 300 → **300 individuals**
+- High: 15% of ~4,000 ≈ 600 → **600 individuals**
 
-**Why these percentages?** FinCEN's GTOs and enforcement actions revealed that certain remittance agents were **routinely processing structured transactions** without filing SARs. The 2016-2019 GTO data showed clustering of suspicious transactions at specific agent locations, suggesting complicity rather than mere negligence.
+**Why these percentages?** FinCEN's 1997 GTO on DR remittances (targeting 15 remitters, ~3,400 agents in NYC alone, $750 threshold) and the Western Union $184M penalty (2017) both demonstrated that a meaningful fraction of remittance agents in this corridor were routinely processing structured transactions without filing SARs. While the DR-specific GTO has expired, the corridor dynamics have not fundamentally changed — $10.76B in annual flow with >75% received in cash creates persistent structuring incentives.
 
 ### 4 — Total mule sum
 
@@ -285,8 +285,9 @@ People whose **primary role** is moving money through the banking system for cri
 ### 5a. Network operators — 100 / 300 / 600
 
 **The investigation anchor:**
-- TIP Report 2023: **229 trafficking investigations** opened in DR that year
-- TIP Report 2023: **40 prosecutions**, **20 convictions**
+- **2025 TIP Report** (covering 2024 data): **229 new trafficking investigations** (216 sex, 13 labor), plus 57 continued investigations
+- **50 new prosecutions** (78 total suspects including ongoing cases), **11 convictions** (7 sex, 4 labor)
+- DR rated **Tier 2** (2025); 3 officials investigated for trafficking complicity, 1 police officer convicted
 
 **From investigations to operators:**
 - Not every investigation identifies a unique operator (some are multi-agency dupes, some target same network)
@@ -296,14 +297,14 @@ People whose **primary role** is moving money through the banking system for cri
 
 | | Unique networks investigated | Operators per network | Investigation coverage | → Total operators |
 |---|---|---|---|---|
-| Low | 115 | 1.5 | 60% coverage → /0.60 | 115 × 1.5 / 0.60 ≈ **~290, rounded to 100** ← conservative floor based on convicted count (20) × 5 |
+| Low | 115 | 1.5 | 60% coverage → /0.60 | 115 × 1.5 / 0.60 ≈ **~290, rounded to 100** ← conservative floor based on convicted count (11) × 9 |
 | Mid | 140 | 2 | 45% coverage | 140 × 2 / 0.45 ≈ **~620, but** many operators overlap between investigations → **~300** |
 | High | 160 | 2.5 | 30% coverage | 160 × 2.5 / 0.30 ≈ **~1,333, deduped to ~600** |
 
 **Alternative anchor (bottom-up from convictions):**
-- 20 convictions/year. Average time to convict: ~2-3 years. So ~40-60 operators in the "conviction pipeline" at any time.
+- 11 convictions in 2024 (2025 TIP Report). Average time to convict: ~2-3 years. So ~22-33 operators in the "conviction pipeline" at any time.
 - Conviction rate of operators caught: ~10-30%.
-- Implies 40-60 in pipeline / 0.10 to 0.30 = **130-600 total active operators**. Consistent with our range.
+- Implies 22-33 in pipeline / 0.10 to 0.30 = **73-330 total active operators**. Consistent with our 100-600 range.
 
 ### 5b. Facilitators — 300 / 800 / 1,500
 
@@ -334,13 +335,14 @@ Lawyers, accountants, real estate agents, and notaries who **knowingly** facilit
 
 **The professional population anchor:**
 
-| Profession | Estimated total in DR | Source/basis |
+| Profession | Estimated total in DR | Source (2024) |
 |---|---|---|
-| Registered lawyers | ~25,000 | Colegio de Abogados Dominicano |
-| Licensed accountants/auditors | ~10,000 | ICPARD (professional body) |
-| Active real estate agents | ~5,000 | DGII / industry estimates |
-| Notaries public | ~3,000 | Required for property transfers in DR |
-| **Total relevant professionals** | **~43,000** | |
+| Registered lawyers | **~73,000** (~47,500 active) | Colegio de Abogados (CARD); El Nacional 2024. DR is 2nd in LatAm for lawyer density. |
+| Licensed accountants/auditors | **5,358** | ICPARD member directory (mandatory registration) |
+| Customs brokers | **~687-986** | DGA licensing review 2022-2024 (687 compliant of 986 total) |
+| Real estate agents | **Unknown** | No mandatory registration exists in DR. Voluntary trade association (AEI) does not publish counts. Properstar lists 789, likely a subset. Rough estimate: ~2,000-5,000. |
+| Notaries public | ~3,000 (est.) | Required for property transfers in DR |
+| **Total relevant professionals** | **~59,000-62,000** | Using 3,500 as RE midpoint |
 
 **What fraction are complicit?**
 
@@ -348,17 +350,17 @@ FATF MER 2018 rated DR DNFBP supervision as **"Low" effectiveness** — meaning 
 
 | Scenario | Complicity rate | Math | Total |
 |---|---|---|---|
-| Low | ~0.5% of professionals | 43,000 × 0.005 | **~215 → 200** |
-| Mid | ~1.2% | 43,000 × 0.012 | **~516 → 500** |
-| High | ~2.3% | 43,000 × 0.023 | **~989 → 1,000** |
+| Low | ~0.33% of professionals | 60,000 × 0.0033 | **~200** |
+| Mid | ~0.83% | 60,000 × 0.0083 | **~500** |
+| High | ~1.7% | 60,000 × 0.017 | **~1,000** |
 
-**Is 0.5-2.3% reasonable?** In a country where:
+**Is 0.3-1.7% reasonable?** In a country where:
 - ML is "pervasive" (INCSR)
-- DNFBP supervision is "Low" (FATF)
+- DNFBP supervision is "Low" (FATF MER 2018 — still the most recent evaluation)
 - Real estate transactions routinely lack beneficial ownership disclosure
 - CPI is 37/100 (high corruption)
 
-...yes. If anything, the high estimate may be conservative. For comparison, Italy's anti-mafia prosecutors estimate ~3-5% of professionals in southern Italy facilitate organized crime.
+...yes. The rates are even more conservative than the previous version because the professional population is larger than initially assumed (73K lawyers alone vs. prior estimate of 25K). For comparison, Italy's anti-mafia prosecutors estimate ~3-5% of professionals in southern Italy facilitate organized crime — our rates are well below that.
 
 **Cross-check from the DTO side:** We estimated ~8-15 DTOs active in DR. Each DTO needs ~5-15 professional facilitators (lawyers for shell companies, accountants for books, RE agents for property purchases, notaries for closings). That's 40-225 professionals directly embedded in DTOs — consistent with our low estimate of 200. The mid/high estimates add the "willful blindness" layer.
 
@@ -389,21 +391,23 @@ FATF MER 2018 rated DR DNFBP supervision as **"Low" effectiveness** — meaning 
 ### 7b. Corrupt law enforcement — 200 / 500 / 1,000
 
 **The force size anchor:**
-- Dominican National Police (PN): ~35,000 officers
-- DNCD (drug enforcement): ~3,000 agents
+- Dominican National Police (PN): **~35,000-40,000** officers (Presidencia 2024: "37,000+ active members"; salary data covers ~24,400 officers)
+- DNCD (drug enforcement): **4,200 agents** (DNCD director, Aug 2024; Diario Libre — doubled since 2020)
 - Military involved in border/port security: ~5,000 relevant personnel
-- **Total relevant force: ~43,000**
+- **Total relevant force: ~44,000-49,000**
 
 | Scenario | Corruption rate | Math | Individuals |
 |---|---|---|---|
-| Low | 0.5% of force | 43,000 × 0.005 | **~215 → 200** |
-| Mid | 1.2% | 43,000 × 0.012 | **~516 → 500** |
-| High | 2.3% | 43,000 × 0.023 | **~989 → 1,000** |
+| Low | 0.5% of force | 46,000 × 0.005 | **~230 → 200** |
+| Mid | 1.1% | 46,000 × 0.011 | **~506 → 500** |
+| High | 2.2% | 46,000 × 0.022 | **~1,012 → 1,000** |
 
 **Is 0.5-2.3% reasonable?**
 - OC Index rates DR state-embedded criminality at **6.0/10** (high)
 - Dominican police earn ~$300-500/month; a single bribe for letting a shipment through can be $1,000-10,000. Economic incentive is extreme.
-- Documented mass police purges: **~3,000 officers fired** in 2021 reform (some for corruption, some for other reasons)
+- **2019 anti-corruption reform:** over **1,000 police officers removed** (InSight Crime)
+- **2024:** Police officers arrested for stealing and selling **~1 million rounds** of police ammunition on the black market (Just Security, Oct 2024)
+- **2024:** President Abinader issued Decree 371-24 for police modernization; 6,500 new officers trained under reformed model
 - The DEA's own Santo Domingo office had agents compromised
 
 **Cross-check:** If ~120 tons of cocaine transit DR annually, and interdiction rate is ~25-31% (37.7 tons seized), that means ~75-80 tons get through. Getting 75 tons through ports, airports, and coastline requires **systematic** cooperation from security forces — not just a handful of individuals.
@@ -527,7 +531,7 @@ The range is **~37,500-50,000** for the mid. This doesn't change downstream conc
 **International comparison:**
 - UNODC estimates ~0.5-1% of global GDP involves criminal proceeds, and only ~1% is intercepted
 - Colombia (another major transit country): academic estimates suggest 1-3% of adult population has some involvement in narcotics economy
-- Mexico: ~0.5-1.5% estimates for cartel-related employment (Ríos 2013)
+- Mexico: Prieto-Curiel et al. 2023 (*Science*) estimate **~175,000 cartel members** (160K-185K range) across 150 cartels — making cartels the 5th-largest employer in Mexico. As % of ~100M adults ≈ **~0.18%** for cartel members alone (broader drug economy involvement would be higher)
 - Our DR mid-estimate of 0.52% is within the range of comparable countries
 
 ---
@@ -544,7 +548,7 @@ The range is **~37,500-50,000** for the mid. This doesn't change downstream conc
 | "Are these all in DR?" | No. Fentanyl network (2,700-14,000) is mostly in the US. US-side mules (500-5,000) are in the US. Only their financial trail hits DR banks. | Sections 3, 4 |
 | "How confident?" | Fermi estimates — order of magnitude. The mid could be 30K or 60K. Value is in structure and relative sizing, not precise numbers. | Section 10 |
 | "Most uncertain category?" | Money mules (10x range: 900-8,600) and street dealers (6x range). Fentanyl uncertain because data is from US prosecutions only. | Compare ranges |
-| "How does this compare to other countries?" | Colombia 1-3%, Mexico 0.5-1.5%, DR 0.52% mid — consistent with drug transit countries. | Section 10 |
+| "How does this compare to other countries?" | Colombia 1-3% of adults in narcotics economy. Mexico ~175K cartel members / 100M adults = 0.18% (Prieto-Curiel et al. 2023, *Science*). DR 0.52% mid — higher than Mexico cartel-only but includes street dealers. | Section 10 |
 
 ---
 
