@@ -30,15 +30,15 @@ All assumptions are numbered for traceability.
 |---|-----------|-------|---------------|
 | A1 | DR population | 11.5M | Worldometers 2025 |
 | A2 | DR adult population (15+) | ~8.4M | 73.4% of total population |
-| A3 | Banking penetration (adults) | 65% | World Bank Global Findex 2024 |
-| A4 | Banked adults in DR | ~5.5M | A2 × A3 |
+| A3 | Banking penetration (adults) | ~51-55% | World Bank Global Findex 2021: 51.3%; central bank/industry estimates: ~55%. Note: 65% is the DR's 2030 ENIF target, not current rate. |
+| A4 | Banked adults in DR | ~4.3-4.6M | A2 × A3 (8.4M × 51-55%) |
 | A5 | Total household deposit accounts | ~7.3M | IMF FAS 2024 (861.3 per 1,000 adults) |
 | A6 | Commercial banks in DR | 16-18 | SIB / IMF |
 | A7 | Total financial entities (regulated) | 49 | US Trade.gov |
 | A8 | Scotiabank DR market share (assets) | 4-7% | $2.77B of ~$68B system; 4th largest bank |
 | A9 | Scotiabank DR retail clients (est.) | 400,000-600,000 | Proportional to market share vs. BanReservas (3M+, ~32%) and Banco Popular (2M+, ~20%) |
 | A10 | Scotiabank DR branches | 46-58 | Scotiabank.do |
-| A11 | Scotiabank share of banked adults | ~7-9% | Mid-estimate: 500K / 5.5M |
+| A11 | Scotiabank share of banked adults | ~11-12% | Mid-estimate: 500K / ~4.5M |
 
 ### Economy Assumptions
 | # | Assumption | Value | Source / Basis |
@@ -192,7 +192,7 @@ Not all illicit actors bank formally. Banking penetration varies dramatically by
 | DTO leadership | 90-100% | Need formal accounts for legitimate front businesses |
 | DTO mid-level operatives | 50-70% | Mix of formal/informal; many use cash |
 | Street dealers (full-time) | 30-50% | Many are unbanked; operate in cash economy |
-| Street dealers (part-time) | 15-30% | Informal economy; below national 65% banking rate |
+| Street dealers (part-time) | 15-30% | Informal economy; below national ~51-55% banking rate |
 | Fentanyl network (DR-based) | 60-80% | Need accounts for receiving US remittances |
 | Money mules (DR-side) | 95-100% | Bank accounts are their operational tool |
 | Human traffickers | 50-70% | Mix of formal/informal operations |
@@ -212,13 +212,13 @@ Not all illicit actors bank formally. Banking penetration varies dramatically by
 | Corrupt officials | 380 | 1,045 | 1,900 | 95% |
 | **Total banked illicit actors** | **~5,500** | **~17,600** | **~40,400** |
 
-As % of banked population (5.5M): **0.10% / 0.32% / 0.73%**
+As % of banked population (~4.5M): **0.12% / 0.39% / 0.90%**
 
 ---
 
 ## 5. Expected Illicit Actors at Scotiabank DR
 
-Applying Scotiabank's estimated market share (~7-9% of banked adults) to the banked illicit actor pool. We assume illicit actors distribute across banks roughly proportional to market share, with some adjustment.
+Applying Scotiabank's estimated market share (~11-12% of banked adults, or ~7% of total accounts) to the banked illicit actor pool. We assume illicit actors distribute across banks roughly proportional to market share, with some adjustment.
 
 **Key assumption (A26):** Illicit actors are not randomly distributed across banks. Larger banks with more branches, ATMs, and remittance services are disproportionately attractive. However, Scotiabank is 4th largest, not dominant. We apply a factor of 1.0x (proportional) as the base case.
 
