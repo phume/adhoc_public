@@ -20,3 +20,19 @@
   - `DR_AML_Risk_Assessment_Master.md` — 10 new typologies (rows 61-70), 8 new features (Section 5.3), updated counts
 - **Checks:** Verified row format matches existing 6-column schema; feature naming follows snake_case convention; all counts updated (88→96 features, 60→70 typologies)
 - **Next:** Human review
+
+## 2026-02-24 — Slide 6 Speaker Notes (v2.3–v2.7)
+
+- **Task:** Create and iteratively refine detailed speaker notes for STR Fermi estimation Slide 6
+- **Commits:**
+  - `0e4598a` v2.3 — Initial speaker notes
+  - `0d40cd9` v2.4 — Full arithmetic chains for every number
+  - `30031b0` v2.5 — Updated with 2024 data sources, fixed outdated figures
+  - `01850be` v2.6 — Tagged every number [S]ourced/[A]ssumed; fixed 65% banking penetration error in main doc
+  - `ae3482c` v2.7 — Converted to numbered source references (S1-S43) with Source Appendix
+- **Files modified:**
+  - `result_20260224_STR_Estimation_Slide6_Notes.md` — primary deliverable (all versions)
+  - `result_20260224_STR_Estimation.md` — banking penetration fix (65%→51-55%)
+- **Key corrections:** Banking penetration 65%→51-55%, cambios 2000→41, lawyers 25K→73K, accountants 10K→5,358, DNCD 3K→4,200, drug arrests 3.8K→49K
+- **Checks:** 43 sources mapped; no orphan references; all numbers tagged
+- **Next:** Human review
