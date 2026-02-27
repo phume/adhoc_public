@@ -54,7 +54,7 @@
 ## 2026-02-26 — VZ & MEX Incremental Fermi Estimation
 
 - **Task:** Estimate incremental illicit actors and STR impact from VZ/MEX geopolitical shocks (beyond baseline)
-- **Commit:** (pending)
+- **Commit:** 1b09cdd
 - **Files created:**
   - `result_20260226_VZ_MEX_Incremental_Fermi.md` — main deliverable
 - **Key results (mid-estimates):**
