@@ -50,3 +50,21 @@
   - 50 sourced references (V1-V27, M1-M23)
 - **Checks:** Content review passed; all sources web-verified
 - **Next:** Human review
+
+## 2026-02-26 — VZ & MEX Incremental Fermi Estimation
+
+- **Task:** Estimate incremental illicit actors and STR impact from VZ/MEX geopolitical shocks (beyond baseline)
+- **Commit:** (pending)
+- **Files created:**
+  - `result_20260226_VZ_MEX_Incremental_Fermi.md` — main deliverable
+- **Key results (mid-estimates):**
+  - VZ incremental: 1,300 actors in DR (PEP capital flight, TPS migration, crypto off-ramp, TdA expansion, Southern Spear adaptation)
+  - MEX incremental: 2,160 actors in DR (balloon effect, cartel fragmentation, fentanyl network, TBML/gold, mule expansion, Chinese MLN)
+  - Combined incremental (deduplicated): ~2,770 in DR → ~166 at Scotiabank (+13.3% over baseline)
+  - Detectable incremental at Scotiabank: ~130 (+28.9% over baseline)
+  - Incremental STR impact: ~53/year (+16.3% over baseline)
+  - Revised Y2 STR target: 300–450/year (25–38/month)
+  - Combined base rate: 0.28% (within industry 0.004%–0.3%)
+- **Sanity checks:** 6/6 passed
+- **References (read-only):** `result_20260224_STR_Estimation.md`, `reference/VZ_MEX_AML_Risk_Assessment_20260226.md`
+- **Next:** Human review
