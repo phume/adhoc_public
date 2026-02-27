@@ -36,3 +36,17 @@
 - **Key corrections:** Banking penetration 65%→51-55%, cambios 2000→41, lawyers 25K→73K, accountants 10K→5,358, DNCD 3K→4,200, drug arrests 3.8K→49K
 - **Checks:** 43 sources mapped; no orphan references; all numbers tagged
 - **Next:** Human review
+
+## 2026-02-26 — Venezuela & Mexico AML Risk Assessment
+
+- **Task:** Research VZ and MEX geopolitical AML risks for Scotiabank DR (AML Chief Officer / Chief Model Developer perspective)
+- **Commit:** a69708f
+- **Files created:**
+  - `reference/VZ_MEX_AML_Risk_Assessment_20260226.md` — main deliverable (592 lines)
+- **Key findings:**
+  - VZ: Maduro captured (Jan 2026), $700M assets seized (incl. Cap Cana DR mansion), 80% PDVSA revenue in USDT, SDN list expanding at unprecedented pace
+  - MEX: Both Sinaloa (Zambada guilty plea) and CJNG (El Mencho killed Feb 22) decapitated simultaneously; balloon effect confirmed (DR seizures 5x since 2019); 8 cartels designated FTOs
+  - Combined risk matrix: 15 factors assessed; 8 rule-based model updates and 10 anomaly detection features proposed
+  - 50 sourced references (V1-V27, M1-M23)
+- **Checks:** Content review passed; all sources web-verified
+- **Next:** Human review
